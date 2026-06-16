@@ -1,11 +1,22 @@
 from service.livros_service import LivroService
+from exceptions.exceptions import CampoVazioError, TipoDadoIncorretoError, FormatoInvalidoError, LivroNaoEncontradoError, LivroDuplicadoError
 from flask import request, jsonify
 
 class LivroController:
     def __init__(self):
         self.livro_service = LivroService()
 
-    
+    def buscar_livro(self, isbn):
+        try:
+            livro = self.livro_service.buscar_livro_isbn(isbn)
+            return jsonify(self._to_response(livro)), 200
+            
+        except (CampoVazioError, TipoDadoIncorretoError, FormatoInvalidoError) as e:
+            return jsonify({"erro": str(e)}), 422
+
+        except LivroNaoEncontradoError as e:
+            return jsonify({"erro": str(e)}), 404
+
     def cadastrar_livro(self):
         dados = request.get_json()
 
@@ -19,9 +30,12 @@ class LivroController:
             )
             return jsonify(self._to_response(livro)), 201
 
-        except ValueError as e:
-            return jsonify({"erro": str(e)}), 400
-
+        except (CampoVazioError, TipoDadoIncorretoError, FormatoInvalidoError) as e:
+            return jsonify({"erro": str(e)}), 422
+        
+        except LivroDuplicadoError as e:
+            return jsonify({"erro": str(e)}), 409
+        
 
     def _to_response(self, livro):
         return {

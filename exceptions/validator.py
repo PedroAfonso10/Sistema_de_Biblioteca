@@ -1,28 +1,29 @@
 import re
+from exceptions.exceptions import CampoVazioError, FormatoInvalidoError, TipoDadoIncorretoError
 
 class Validator:
     def validar_entrada_numerica(self, valor):
         # Garante existência de valor no campo
         if valor is None:
-            raise ValueError('Campo não está preenchido')
+            raise CampoVazioError('Campo não está preenchido')
         
         # Garante que o valor seja do tipo int
         if not isinstance(valor, int):
-            raise ValueError('O campo deve ser preenchido com número inteiro')
+            raise TipoDadoIncorretoError('O campo deve ser preenchido com número inteiro')
     
 
     def validar_string(self, string):
         # Garante existência de string no campo
         if string is None:
-            raise ValueError('Campo não está preenchido')
+            raise CampoVazioError('Campo não está preenchido')
         
         # Garante que a string seja do tipo str
         if not isinstance(string, str):
-            raise ValueError('O campo deve ser preenchido com string')
+            raise TipoDadoIncorretoError('O campo deve ser preenchido com string')
         
         # Garante que o campo não seja preenchido com espaços 
         if string.strip() == "":
-            raise ValueError('O campo não está preenchido com caracteres válidos')
+            raise CampoVazioError('O campo não está preenchido com caracteres válidos')
     
 
     def validar_isbn(self, string):
@@ -38,7 +39,7 @@ class Validator:
 
         # Verifica se o ISBN é válido
         if not re.fullmatch(formato, string):
-            raise ValueError("Formato de ISBN inválido. Use o padrão de 10 ou 13 dígitos.")
+            raise FormatoInvalidoError("Formato de ISBN inválido. Use o padrão de 10 ou 13 dígitos.")
 
         return string
 
@@ -67,4 +68,3 @@ class Validator:
             raise ValueError("Título inválido")
 
         return string
-    
