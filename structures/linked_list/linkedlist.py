@@ -4,17 +4,18 @@ class LinkedList:
     def __init__(self):
         self.head = None
 
-    def inserir(self, valor):
-        novo = Node(valor)
-        
+    def inserir(self, livro):
+        novo_livro = Node(livro)
+
         if self.head is None:
-            self.head = novo
+            self.head = novo_livro
             return
 
-        atual = self.head
+        livro_atual = self.head
+
         # Percorre até o último nó
-        while atual.next is not None:
-            atual = atual.next
+        while livro_atual.next is not None:
+            livro_atual = livro_atual.next
 
         # Insere o elemento no fim
-        atual.next = novo
+        livro_atual.next = novo_livro
