@@ -13,10 +13,9 @@ class LivroService:
         self.validator_service.validar_isbn(isbn)
         livro  = self.livro_repository.buscar_isbn(isbn)
         if not livro:
-            raise LivroNaoEncontradoError('ISBN não encontrado cadastrado')
+            raise LivroNaoEncontradoError('ISBN não cadastrado')
         
         return livro
-
 
     def cadastrar_livro(self, isbn: str, titulo: str, autor: str, ano_publicacao: int, qtd_exemplares: int):
         # Valida ISBN
@@ -44,4 +43,16 @@ class LivroService:
         # Cria entidade 
         livro = Livro(isbn, titulo, autor, ano_publicacao, qtd_exemplares)
 
-        return self.livro_repository.create_livro(livro)
+        return self.livro_repository.cadastrar_livro(livro)
+    
+    def deletar_livro(self, isbn: str):
+        self.validator_service.validar_isbn(isbn)
+        livro = self.buscar_livro_isbn(isbn)
+
+        if not livro:
+            raise LivroNaoEncontradoError("O ISBN desse livro não existe")
+        
+        # Remove o livro e o retorna, ou retorna None se não existir
+        livro_removido = self.livro_repository.deletar_livro(livro)
+
+        return livro_removido   

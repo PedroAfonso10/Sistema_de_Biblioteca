@@ -1,5 +1,4 @@
 class HashTable:
-
     def __init__(self, tamanho=10):
         self.tamanho = tamanho
         # Cria um vetor de listas vazias para o encadeamento (chaining)
@@ -14,6 +13,10 @@ class HashTable:
         indice = self._hash_func(livro.isbn)
         self.tabela[indice].append((livro.isbn, livro))
     
+    def remover(self, livro):
+        indice = self._hash_func(livro.isbn)
+        self.tabela[indice].remove((livro.isbn, livro))
+
     def buscar(self, isbn):
         # Calcula o índice baseado no ISBN
         indice = self._hash_func(isbn)

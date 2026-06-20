@@ -12,3 +12,7 @@ def obter_livro(isbn: str):
 @bp.route("/livros", methods=['POST'])
 def cadastrar_livro():
     return livro_controller.cadastrar_livro()
+
+@bp.route("/livros/<string:isbn>", methods=['DELETE'])
+def deletar_livro(isbn: str):
+    return livro_controller.deletar_livro(isbn)

@@ -36,6 +36,16 @@ class LivroController:
         except LivroDuplicadoError as e:
             return jsonify({"erro": str(e)}), 409
         
+    def deletar_livro(self, isbn):
+        try:
+            livro = self.livro_service.deletar_livro(isbn)
+            return jsonify(self._to_response(livro)), 200
+        
+        except (CampoVazioError, FormatoInvalidoError, TipoDadoIncorretoError) as e:
+            return jsonify({"erro": str(e)}), 422
+        
+        except LivroNaoEncontradoError as e:
+            return jsonify({"erro": str(e)}), 404
 
     def _to_response(self, livro):
         return {
