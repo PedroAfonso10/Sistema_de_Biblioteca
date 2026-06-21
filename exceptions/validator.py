@@ -68,3 +68,18 @@ class Validator:
             raise ValueError("Título inválido")
 
         return string
+    
+    def validar_matricula(self, string):
+        self.validar_string(string)
+
+        string = " ".join(string.split())
+
+        # Expressão Regular para o formato da MATRICULA
+        # Ano atual/recente (4 dígitos) + Sequencial (4 dígitos) -> 8 dígitos numéricos puros
+        formato = r"^\d{4}\d{4}$"
+
+        if not re.fullmatch(formato, string):
+            raise FormatoInvalidoError(
+                "Formato de matrícula inválido.")
+
+        return string
