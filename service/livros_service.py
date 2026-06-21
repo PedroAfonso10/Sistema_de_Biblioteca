@@ -56,9 +56,6 @@ class LivroService:
     def deletar_livro(self, isbn: str):
         self.validator_service.validar_isbn(isbn)
         livro = self.buscar_livro_isbn(isbn)
-
-        if not livro:
-            raise LivroNaoEncontradoError("O ISBN desse livro não existe")
         
         # Remove o livro e o retorna, ou retorna None se não existir
         livro_removido = self.livro_repository.deletar_livro(livro)

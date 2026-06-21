@@ -23,6 +23,5 @@ class LivroRepository:
     def deletar_livro(self, livro):
         livro_removido = self.linked_list.remover(livro.isbn)
         self.abb.remover(livro.titulo, livro.isbn)
-        self.ht.remover(livro)
+        self.ht.remover(livro.isbn)
         return livro_removido
-
