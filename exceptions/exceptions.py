@@ -15,3 +15,9 @@ class LivroDuplicadoError(Exception):
 
 class ArvoreVazia(Exception):
     pass
+
+class UsuarioDuplicadoError(Exception):
+    pass
+
+class UsuarioNaoEncontradoError(Exception):
+    pass
