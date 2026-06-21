@@ -38,6 +38,18 @@ class UsuarioController:
         except UsuarioDuplicadoError as e:
             return jsonify({"erro": str(e)}), 409
     
+    def deletar_usuario(self, matricula: str):
+        try:
+            usuario_removido = self.usuario_service.deletar_usuario(matricula)
+            
+            return jsonify(self._to_response(usuario_removido)), 200
+            
+        except (CampoVazioError, TipoDadoIncorretoError, FormatoInvalidoError) as e:
+            return jsonify({"erro": str(e)}), 422
+
+        except UsuarioNaoEncontradoError as e:
+            return jsonify({"erro": str(e)}), 404
+
     def _to_response(self, usuario):
         return {
             "nome": usuario.nome,

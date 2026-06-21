@@ -8,11 +8,17 @@ class UsuarioRepository:
         self.abb_usuario = ArvoreBinariaBusca()
         self.ht_usuario = HashTable()
 
+    def buscar_usuario(self, matricula):
+        return self.ht_usuario.buscar(matricula)
+
     def cadastrar_usuario(self, usuario):
         self.linkedlist_usuario.inserir(usuario)
         self.abb_usuario.inserir(usuario)
         self.ht_usuario.inserir(usuario)
         return usuario
     
-    def buscar_usuario(self, matricula):
-        return self.ht_usuario.buscar(matricula)
+    def deletar_usuario(self, usuario):
+        usuario_removido = self.linkedlist_usuario.remover(usuario.matricula)
+        self.abb_usuario.remover(usuario.nome, usuario.matricula)
+        self.ht_usuario.remover(usuario.matricula)
+        return usuario_removido

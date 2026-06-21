@@ -27,3 +27,14 @@ class UsuarioService:
         usuario = Usuario(nome, curso, matricula)
 
         return self.usuario_repository.cadastrar_usuario(usuario)
+    
+    def deletar_usuario(self, matricula: str):
+        self.validator_service_usuario.validar_matricula(matricula)
+        usuario = self.usuario_repository.buscar_usuario(matricula)
+
+        if not usuario:
+            raise UsuarioNaoEncontradoError('Usuário não encontrado')
+        
+        usuario_removido = self.usuario_repository.deletar_usuario(usuario)
+        
+        return usuario_removido
