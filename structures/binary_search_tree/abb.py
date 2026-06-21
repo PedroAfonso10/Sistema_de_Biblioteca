@@ -72,3 +72,17 @@ class ArvoreBinariaBusca:
         if no.esquerda is None:
             return no
         return self._menor_elemento(no.esquerda)
+    
+    def mostrar_em_ordem(self):
+        if self.raiz is None:
+            return []   
+        
+        livros_ordenados = []
+        self._mostrar_em_ordem_recursivo(self.raiz, livros_ordenados)
+        return livros_ordenados
+        
+    def _mostrar_em_ordem_recursivo(self, no, lista):
+        if no is not None:
+            self._mostrar_em_ordem_recursivo(no.esquerda, lista)
+            lista.append(no.livro)
+            self._mostrar_em_ordem_recursivo(no.direita, lista)

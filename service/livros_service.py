@@ -1,6 +1,6 @@
 from repository.livros_repository import LivroRepository
 from exceptions.validator import Validator
-from exceptions.exceptions import FormatoInvalidoError, LivroNaoEncontradoError, LivroDuplicadoError
+from exceptions.exceptions import FormatoInvalidoError, LivroNaoEncontradoError, LivroDuplicadoError, ArvoreVazia
 from models.livro import Livro
 from datetime import datetime
 
@@ -16,6 +16,14 @@ class LivroService:
             raise LivroNaoEncontradoError('ISBN não cadastrado')
         
         return livro
+
+    def listar_livros(self):
+        livros_ordenados = self.livro_repository.listar_livros()
+        
+        if not livros_ordenados:
+            raise ArvoreVazia("Não há nenhum livro cadastrado na árvore")
+        
+        return livros_ordenados
 
     def cadastrar_livro(self, isbn: str, titulo: str, autor: str, ano_publicacao: int, qtd_exemplares: int):
         # Valida ISBN

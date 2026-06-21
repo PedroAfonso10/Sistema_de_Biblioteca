@@ -8,8 +8,11 @@ class LivroRepository:
         self.abb = ArvoreBinariaBusca()
         self.ht = HashTable()
 
+    def listar_livros(self):
+        return self.abb.mostrar_em_ordem()
+    
     def buscar_isbn(self, isbn):
-        return self.ht.buscar(isbn)
+        return self.ht.buscar(isbn) 
     
     def cadastrar_livro(self, livro):
         self.linked_list.inserir(livro)
