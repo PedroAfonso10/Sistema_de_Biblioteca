@@ -20,7 +20,7 @@ class LivroController:
     def listar_livros(self):
         try:
             livros = self.livro_service.listar_livros()
-            return jsonify([self._to_response(livro) for livro in livros]), 200
+            return jsonify([{"titulo": livro.titulo} for livro in livros]), 200
         
         except ArvoreVazia as e:
             return jsonify({"erro": str(e)}), 404
