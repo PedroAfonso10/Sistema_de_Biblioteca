@@ -12,3 +12,6 @@ class LivroNaoEncontradoError(Exception):
 
 class LivroDuplicadoError(Exception): 
     pass
+
+class ArvoreVazia(Exception):
+    pass

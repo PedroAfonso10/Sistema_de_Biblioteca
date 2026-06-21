@@ -1,51 +1,55 @@
 from structures.linked_list.node import Node
 
 class LinkedList:
+    """
+    Armazena qualquer objeto (Livros, Usuários, etc.). Utiliza o polimorfismo através do método 'get_id()' dos objetos contidos
+    para realizar operações de busca e remoção. 
+    """
     def __init__(self):
         self.head = None
 
-    def inserir(self, livro):
-        novo_livro = Node(livro)
+    def inserir(self, dado):
+        novo_dado = Node(dado)
 
         if self.head is None:
-            self.head = novo_livro
+            self.head = novo_dado
             return
 
-        livro_atual = self.head
+        dado_atual = self.head
 
         # Percorre até o último nó
-        while livro_atual.next is not None:
-            livro_atual = livro_atual.next
+        while dado_atual.next is not None:
+            dado_atual = dado_atual.next
 
-        # Insere o Livro no fim
-        livro_atual.next = novo_livro
+        # Insere o dado no fim
+        dado_atual.next = novo_dado
 
-    def remover(self, isbn):
+    def remover(self, alvo):
         if self.head is None:
             return None
         
         # Remove se estiver na primeira posição
-        if self.head.livro.isbn == isbn:
-            # Guarda o livro que vai ser removido 
-            livro_removido = self.head.livro
+        if self.head.dado.get_id() == alvo:
+            # Guarda o dado que vai ser removido 
+            dado_removido = self.head.dado
 
             # A cabeça aponta para o próximo nó
             self.head = self.head.next
-            return livro_removido 
+            return dado_removido 
         
-        livro_anterior = self.head
-        livro_atual = self.head.next
-        
+        dado_anterior = self.head
+        dado_atual = self.head.next
+
         # Percorre até encontrar o ISBN
-        while livro_atual is not None:
-            if livro_atual.livro.isbn == isbn:
-                livro_removido = livro_atual.livro
+        while dado_atual is not None:
+            if dado_atual.dado.get_id() == alvo:
+                dado_removido = dado_atual.dado
 
                 # Pula o atual e referencia o próximo
-                livro_anterior.next = livro_atual.next
-                return livro_removido
+                dado_anterior.next = dado_atual.next
+                return dado_removido
 
-            livro_anterior = livro_atual
-            livro_atual = livro_atual.next
+            dado_anterior = dado_atual
+            dado_atual = dado_atual.next
     
         return None

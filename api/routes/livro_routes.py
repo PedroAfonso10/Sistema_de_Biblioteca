@@ -5,6 +5,10 @@ livro_controller = LivroController()
 
 bp = Blueprint("livros", __name__)
 
+@bp.route("/livros", methods=['GET'])
+def listar_livros():
+    return livro_controller.listar_livros()
+
 @bp.route("/livros/<string:isbn>", methods=['GET'])
 def obter_livro(isbn: str):
     return livro_controller.buscar_livro(isbn)
