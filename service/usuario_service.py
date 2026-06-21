@@ -1,7 +1,7 @@
 from repository.usuario_repository import UsuarioRepository
 from models.usuario import Usuario
 from exceptions.validator import Validator
-from exceptions.exceptions import CampoVazioError, FormatoInvalidoError, TipoDadoIncorretoError, UsuarioDuplicadoError, UsuarioNaoEncontradoError
+from exceptions.exceptions import  UsuarioDuplicadoError, UsuarioNaoEncontradoError, ArvoreVazia
 
 class UsuarioService:
     def __init__(self):
@@ -15,6 +15,14 @@ class UsuarioService:
             raise UsuarioNaoEncontradoError('Usuário não cadastrado')
             
         return usuario
+    
+    def listar_usuarios(self):
+        usuarios_ordenados = self.usuario_repository.listar_usuarios()
+
+        if not usuarios_ordenados:
+            raise ArvoreVazia('Não há usuários na árvore')
+        
+        return usuarios_ordenados
 
     def cadastrar_usuario(self, nome: str, curso: str, matricula: str):
         self.validator_service_usuario.validar_autor(nome)

@@ -8,6 +8,9 @@ class UsuarioRepository:
         self.abb_usuario = ArvoreBinariaBusca()
         self.ht_usuario = HashTable()
 
+    def listar_usuarios(self):
+        return self.abb_usuario.mostrar_em_ordem()
+
     def buscar_usuario(self, matricula):
         return self.ht_usuario.buscar(matricula)
 

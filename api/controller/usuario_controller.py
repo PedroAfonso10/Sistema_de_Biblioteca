@@ -1,5 +1,5 @@
 from service.usuario_service import UsuarioService
-from exceptions.exceptions import CampoVazioError, FormatoInvalidoError, TipoDadoIncorretoError, UsuarioDuplicadoError, UsuarioNaoEncontradoError
+from exceptions.exceptions import CampoVazioError, FormatoInvalidoError, TipoDadoIncorretoError, UsuarioDuplicadoError, UsuarioNaoEncontradoError, ArvoreVazia
 from flask import request, jsonify
 
 class UsuarioController:
@@ -16,7 +16,18 @@ class UsuarioController:
 
         except UsuarioNaoEncontradoError as e:
             return jsonify({"erro": str(e)}), 404
-
+        
+    def listar_usuarios(self):
+        try:
+            usuarios = self.usuario_service.listar_usuarios()
+            return jsonify([{"nome": usuario.nome, "matricula": usuario.matricula} for usuario in usuarios]), 200
+        
+        except ArvoreVazia as e:
+            return jsonify({"erro": str(e)}), 404
+        
+        except Exception as e:
+            return jsonify({"erro": "Falha no servidor"}), 500
+        
     def cadastrar_usuario(self):
         dados_usuario = request.get_json()
 
