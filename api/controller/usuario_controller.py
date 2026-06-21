@@ -6,6 +6,17 @@ class UsuarioController:
     def __init__(self):
         self.usuario_service = UsuarioService()
 
+    def buscar_usuario(self, matricula):
+        try:
+            usuario = self.usuario_service.buscar_usuario(matricula)
+            return jsonify(self._to_response(usuario)), 200
+            
+        except (CampoVazioError, TipoDadoIncorretoError, FormatoInvalidoError) as e:
+            return jsonify({"erro": str(e)}), 422
+
+        except UsuarioNaoEncontradoError as e:
+            return jsonify({"erro": str(e)}), 404
+
     def cadastrar_usuario(self):
         dados_usuario = request.get_json()
 

@@ -5,6 +5,10 @@ usuario_controller = UsuarioController()
 
 bp_usuario = Blueprint("usuarios", __name__)
 
+@bp_usuario.route("/usuarios/<string:matricula>", methods=['GET'])
+def obter_usuario(matricula: str):
+    return usuario_controller.buscar_usuario(matricula)
+
 @bp_usuario.route("/usuarios", methods=['POST']) 
 def cadastrar_usuario():
     return usuario_controller.cadastrar_usuario()
