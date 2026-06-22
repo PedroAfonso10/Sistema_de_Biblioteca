@@ -4,7 +4,6 @@ from repository.livros_repository import livro_repository_global
 from exceptions.validator import Validator
 from exceptions.exceptions import UsuarioNaoEncontradoError, LivroNaoEncontradoError, LivroIndisponivelError, EmprestimosNaoRealizados, EmprestimoNaoEncontradoError, DevolucaoIndisponivelError
 from models.emprestimo import Emprestimo
-from datetime import datetime
 
 class EmprestimoService:
     def __init__(self):
@@ -33,7 +32,8 @@ class EmprestimoService:
             raise LivroNaoEncontradoError("ISBN do livro não cadastrado")
 
         if livro.qtd_exemplares <= 0:
-            raise LivroIndisponivelError("Livro indisponível no momento.")
+            self.emprestimo_repository.enfileirar_fila_de_espera(matricula, isbn)
+            raise LivroIndisponivelError("Livro indisponível no momento. Inserido na fila de espera")
         
         livro.qtd_exemplares -= 1
 
@@ -55,6 +55,14 @@ class EmprestimoService:
         # Busca o livro guardado no empréstimo
         livro = self.livro_repository.buscar_isbn(emprestimo.isbn_livro)
         if livro:
-            livro.qtd_exemplares += 1
+            novo_emprestimo = self.emprestimo_repository.desenfileirar_espera(livro.isbn)
+            
+            if novo_emprestimo:
+                # Se tem alguém na fila, repassa o livro
+                novo_emprestimo = Emprestimo(novo_emprestimo, livro.isbn)
+                self.emprestimo_repository.emprestar(novo_emprestimo)
+            else:
+                # Volta para 'qtd_exemplares' se não tiver ninguém na fila
+                livro.qtd_exemplares += 1
         
         return emprestimo

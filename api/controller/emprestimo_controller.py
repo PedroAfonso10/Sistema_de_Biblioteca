@@ -1,5 +1,5 @@
 from service.emprestimo_service import EmprestimoService
-from exceptions.exceptions import FormatoInvalidoError, CampoVazioError, TipoDadoIncorretoError, UsuarioNaoEncontradoError, LivroNaoEncontradoError, EmprestimosNaoRealizados, EmprestimoNaoEncontradoError, DevolucaoIndisponivelError
+from exceptions.exceptions import FormatoInvalidoError, CampoVazioError, TipoDadoIncorretoError, UsuarioNaoEncontradoError, LivroNaoEncontradoError, EmprestimosNaoRealizados, EmprestimoNaoEncontradoError, DevolucaoIndisponivelError, LivroIndisponivelError
 from flask import request, jsonify
 
 class EmprestimoController:
@@ -26,6 +26,9 @@ class EmprestimoController:
                 isbn=dados["isbn"]
             )
             return jsonify(self._to_response(dados_emprestimo)), 201    
+        
+        except LivroIndisponivelError as e:
+            return jsonify({"mensagem": str(e)}), 202
         
         except (CampoVazioError, FormatoInvalidoError, TipoDadoIncorretoError) as e:
             return jsonify({"erro": str(e)}), 422
