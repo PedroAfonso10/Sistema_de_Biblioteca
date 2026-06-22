@@ -53,3 +53,17 @@ class LinkedList:
             dado_atual = dado_atual.next
     
         return None
+    
+    def listar(self):
+        if self.head is None:
+            return []
+            
+        elementos = [] 
+        dado_atual = self.head
+        
+        # Percorre todos os nós até o fim da lista encadeada
+        while dado_atual is not None:
+            elementos.append(dado_atual.dado)
+            dado_atual = dado_atual.next     
+            
+        return elementos

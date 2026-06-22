@@ -1,10 +1,21 @@
 from service.emprestimo_service import EmprestimoService
-from exceptions.exceptions import FormatoInvalidoError, CampoVazioError, TipoDadoIncorretoError, UsuarioNaoEncontradoError, LivroNaoEncontradoError
+from exceptions.exceptions import FormatoInvalidoError, CampoVazioError, TipoDadoIncorretoError, UsuarioNaoEncontradoError, LivroNaoEncontradoError, EmprestimosNaoRealizados
 from flask import request, jsonify
 
 class EmprestimoController:
     def __init__(self):
         self.emprestimo_service = EmprestimoService()
+
+    def listar_emprestimos(self):
+        try:
+            emprestimos_realizados = self.emprestimo_service.listar_emprestimos()
+            return jsonify([self._to_response(emprestimo) for emprestimo in emprestimos_realizados]), 200
+        
+        except EmprestimosNaoRealizados as e:
+            return jsonify({"erro": str(e)}), 404
+        
+        except Exception as e:
+            return jsonify({"erro": "Falha no servidor"}), 500
 
     def emprestar(self):
         dados = request.get_json()

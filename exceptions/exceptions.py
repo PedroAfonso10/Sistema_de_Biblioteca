@@ -24,3 +24,6 @@ class UsuarioNaoEncontradoError(Exception):
 
 class LivroIndisponivelError(Exception):
     pass
+
+class EmprestimosNaoRealizados(Exception):
+    pass
