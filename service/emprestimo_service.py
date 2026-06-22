@@ -55,7 +55,7 @@ class EmprestimoService:
         # Busca o livro guardado no empréstimo
         livro = self.livro_repository.buscar_isbn(emprestimo.isbn_livro)
         if livro:
-            novo_emprestimo = self.emprestimo_repository.desenfileirar_espera(livro.isbn)
+            novo_emprestimo = self.emprestimo_repository.desenfileirar_espera(livro.isbn)       
             
             if novo_emprestimo:
                 # Se tem alguém na fila, repassa o livro
@@ -66,3 +66,16 @@ class EmprestimoService:
                 livro.qtd_exemplares += 1
         
         return emprestimo
+
+    def desfazer_ultimo_emprestimo(self):
+        ultimo_emprestimo = self.emprestimo_repository.desfazer_ultimo_emprestimo()
+        
+        if not ultimo_emprestimo:
+            raise Exception("Não há empréstimos recentes para desfazer.")
+            
+        # Desenvolve o livro
+        livro = self.livro_repository.buscar_isbn(ultimo_emprestimo.isbn_livro)
+        if livro:
+            livro.qtd_exemplares += 1
+            
+        return ultimo_emprestimo

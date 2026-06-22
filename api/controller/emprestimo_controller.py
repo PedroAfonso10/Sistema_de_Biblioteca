@@ -50,6 +50,12 @@ class EmprestimoController:
         except Exception as e:
             return jsonify({"erro": "Falha no servidor"}), 500
 
+    def desfazer_ultimo_emprestimo(self):
+        try:
+            emprestimo_desfeito = self.emprestimo_service.desfazer_ultimo_emprestimo()
+            return jsonify(self._to_response(emprestimo_desfeito)), 200
+        except Exception as e:
+            return jsonify({"erro": str(e)}), 400
 
     def _to_response(self, dados_emprestimo):
         formato_data = "%d/%m/%Y %H:%M:%S"
