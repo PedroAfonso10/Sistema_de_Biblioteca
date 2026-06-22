@@ -1,11 +1,11 @@
-from repository.usuario_repository import UsuarioRepository
+from repository.usuario_repository import usuario_repository_global
 from models.usuario import Usuario
 from exceptions.validator import Validator
 from exceptions.exceptions import  UsuarioDuplicadoError, UsuarioNaoEncontradoError, ArvoreVazia
 
 class UsuarioService:
     def __init__(self):
-        self.usuario_repository = UsuarioRepository()
+        self.usuario_repository = usuario_repository_global
         self.validator_service_usuario = Validator()
     
     def buscar_usuario(self, matricula: str):

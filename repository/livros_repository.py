@@ -25,3 +25,5 @@ class LivroRepository:
         self.abb.remover(livro.titulo, livro.isbn)
         self.ht.remover(livro.isbn)
         return livro_removido
+
+livro_repository_global = LivroRepository()

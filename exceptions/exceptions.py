@@ -21,3 +21,15 @@ class UsuarioDuplicadoError(Exception):
 
 class UsuarioNaoEncontradoError(Exception):
     pass
+
+class LivroIndisponivelError(Exception):
+    pass
+
+class EmprestimosNaoRealizados(Exception):
+    pass
+
+class EmprestimoNaoEncontradoError(Exception):
+    pass
+
+class DevolucaoIndisponivelError(Exception):
+    pass
