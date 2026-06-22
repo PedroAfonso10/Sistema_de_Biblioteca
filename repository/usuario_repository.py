@@ -25,3 +25,5 @@ class UsuarioRepository:
         self.abb_usuario.remover(usuario.nome, usuario.matricula)
         self.ht_usuario.remover(usuario.matricula)
         return usuario_removido
+
+usuario_repository_global = UsuarioRepository()

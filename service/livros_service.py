@@ -1,4 +1,4 @@
-from repository.livros_repository import LivroRepository
+from repository.livros_repository import livro_repository_global
 from exceptions.validator import Validator
 from exceptions.exceptions import FormatoInvalidoError, LivroNaoEncontradoError, LivroDuplicadoError, ArvoreVazia
 from models.livro import Livro
@@ -6,7 +6,7 @@ from datetime import datetime
 
 class LivroService:
     def __init__(self):
-        self.livro_repository = LivroRepository()
+        self.livro_repository = livro_repository_global
         self.validator_service = Validator()
 
     def buscar_livro_isbn(self, isbn: str):
