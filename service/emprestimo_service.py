@@ -2,8 +2,9 @@ from repository.emprestimo_repository import emprestimo_repository_global
 from repository.usuario_repository import usuario_repository_global
 from repository.livros_repository import livro_repository_global
 from exceptions.validator import Validator
-from exceptions.exceptions import UsuarioNaoEncontradoError, LivroNaoEncontradoError, LivroIndisponivelError, EmprestimosNaoRealizados
+from exceptions.exceptions import UsuarioNaoEncontradoError, LivroNaoEncontradoError, LivroIndisponivelError, EmprestimosNaoRealizados, EmprestimoNaoEncontradoError, DevolucaoIndisponivelError
 from models.emprestimo import Emprestimo
+from datetime import datetime
 
 class EmprestimoService:
     def __init__(self):
@@ -38,3 +39,22 @@ class EmprestimoService:
 
         emprestimo = Emprestimo(matricula, isbn)
         return self.emprestimo_repository.emprestar(emprestimo)
+    
+    def devolucao(self, id_emprestimo):
+        emprestimo = self.emprestimo_repository.devolucao(id_emprestimo)
+
+        if not emprestimo:
+            raise EmprestimoNaoEncontradoError("Empréstimo não localizado.")
+        
+        if emprestimo.data_devolucao is not None:
+            raise DevolucaoIndisponivelError("Devolução já realizada.") 
+        
+        # Registra o momento da devolução
+        emprestimo.registrar_devolucao()
+
+        # Busca o livro guardado no empréstimo
+        livro = self.livro_repository.buscar_isbn(emprestimo.isbn_livro)
+        if livro:
+            livro.qtd_exemplares += 1
+        
+        return emprestimo

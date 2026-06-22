@@ -14,4 +14,8 @@ class EmprestimoRepository:
         self.ht_emprestimo.inserir(emprestimo)
         return emprestimo
     
+    def devolucao(self, id_emprestimo):
+        emprestimo = self.ht_emprestimo.buscar(id_emprestimo)
+        return emprestimo
+
 emprestimo_repository_global = EmprestimoRepository()

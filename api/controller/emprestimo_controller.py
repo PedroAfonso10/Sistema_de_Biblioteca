@@ -1,5 +1,5 @@
 from service.emprestimo_service import EmprestimoService
-from exceptions.exceptions import FormatoInvalidoError, CampoVazioError, TipoDadoIncorretoError, UsuarioNaoEncontradoError, LivroNaoEncontradoError, EmprestimosNaoRealizados
+from exceptions.exceptions import FormatoInvalidoError, CampoVazioError, TipoDadoIncorretoError, UsuarioNaoEncontradoError, LivroNaoEncontradoError, EmprestimosNaoRealizados, EmprestimoNaoEncontradoError, DevolucaoIndisponivelError
 from flask import request, jsonify
 
 class EmprestimoController:
@@ -33,6 +33,20 @@ class EmprestimoController:
         except (UsuarioNaoEncontradoError, LivroNaoEncontradoError)  as e:
             return jsonify({"erro": str(e)}), 404
         
+    def devolucao(self, id_emprestimo):
+        try:
+            emprestimo_atualizado = self.emprestimo_service.devolucao(id_emprestimo)
+            return jsonify(self._to_response(emprestimo_atualizado)), 200
+
+        except EmprestimoNaoEncontradoError as e: 
+            return jsonify({"erro": str(e)}), 404
+        
+        except DevolucaoIndisponivelError as e:
+            return jsonify({"erro": str(e)}), 400
+            
+        except Exception as e:
+            return jsonify({"erro": "Falha no servidor"}), 500
+
 
     def _to_response(self, dados_emprestimo):
         formato_data = "%d/%m/%Y %H:%M:%S"

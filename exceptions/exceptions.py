@@ -27,3 +27,9 @@ class LivroIndisponivelError(Exception):
 
 class EmprestimosNaoRealizados(Exception):
     pass
+
+class EmprestimoNaoEncontradoError(Exception):
+    pass
+
+class DevolucaoIndisponivelError(Exception):
+    pass
