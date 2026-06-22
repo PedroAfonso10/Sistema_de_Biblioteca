@@ -79,3 +79,29 @@ class EmprestimoService:
             livro.qtd_exemplares += 1
             
         return ultimo_emprestimo
+    
+    def relatorio_acervo(self):
+        todos_livros = self.livro_repository.listar_livros()
+        if not todos_livros:
+            raise LivroNaoEncontradoError("Livros não encontrados no sistema.")
+        
+        relatorio = []
+        for livro in todos_livros:
+            # Busca a fila do livro atual na fila de espera
+            fila = self.emprestimo_repository.ht_filas_espera.buscar(livro.isbn)
+
+            usuarios_fila = fila.dados if fila else []
+            tamanho_fila = len(usuarios_fila)
+            
+            relatorio.append({
+                "titulo": livro.titulo,
+                "autor": livro.autor,
+                "ano_publicacao": livro.ano_publicacao,
+                "isbn": livro.isbn,
+                "exemplares_disponiveis": livro.qtd_exemplares,
+                "total_na_fila": tamanho_fila,
+                "matriculas_na_fila": usuarios_fila,
+                "status": "Disponível" if livro.qtd_exemplares > 0 else "Esgotado"
+            })
+            
+        return relatorio

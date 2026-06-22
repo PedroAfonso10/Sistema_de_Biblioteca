@@ -20,3 +20,7 @@ def devolucao(id_emprestimo):
 @bp_emprestimo.route('/emprestimos/desfazer', methods=['POST'])
 def desfazer_ultimo_emprestimo():
     return emprestimo_controller.desfazer_ultimo_emprestimo()
+
+@bp_emprestimo.route('/emprestimos/relatorio', methods=['GET'])
+def relatorio():
+    return emprestimo_controller.relatorio_acervo()

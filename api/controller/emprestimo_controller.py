@@ -57,6 +57,17 @@ class EmprestimoController:
         except Exception as e:
             return jsonify({"erro": str(e)}), 400
 
+    def relatorio_acervo(self):
+        try:
+            relatorio = self.emprestimo_service.relatorio_acervo()
+            return jsonify(relatorio), 200
+        
+        except LivroNaoEncontradoError as e:
+            return jsonify({"erro": str(e)}), 404
+        
+        except Exception as e:
+            return jsonify({"erro": "Falha no servidor"}), 500
+
     def _to_response(self, dados_emprestimo):
         formato_data = "%d/%m/%Y %H:%M:%S"
         return {

@@ -12,6 +12,9 @@ class EmprestimoRepository:
 
     def listar_emprestimos(self):
         return self.linkedlist_emprestimo.listar()
+    
+    def relatorio_acervo(self):
+        return self.linkedlist_emprestimo.listar()
 
     def emprestar(self, emprestimo):
         self.linkedlist_emprestimo.inserir(emprestimo)
